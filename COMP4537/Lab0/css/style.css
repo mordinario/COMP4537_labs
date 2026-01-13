@@ -1,0 +1,16 @@
+#message {
+  padding-top: 10px;
+}
+
+#gameArea {
+  padding-top: 50px;
+}
+
+.gameButton {
+  border: none;
+  padding: 15px 32px;
+  position: static;
+  margin: 0px 10px;
+  height: 5em;
+  width: 10em;
+}
