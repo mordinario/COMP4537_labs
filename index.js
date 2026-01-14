@@ -19,7 +19,7 @@ app.get('/COMP4537/lab0/', (req, res) => {
 });
 
 // Start the server
-let port = 3000;
+let port = 8080;
 app.listen(port, () => {
   console.log(`HEEEEEELP HELP MEEEEEEEEE http://localhost:${port}`);
 }); 
