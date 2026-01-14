@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/COMP4537/lab0/', (req, res) => {
-    let doc = fs.readFileSync('./COMP4537/Lab0/index.html', 'utf8');
+    let doc = fs.readFileSync('./COMP4537/lab0/index.html', 'utf8');
     res.send(doc);
 });
 
