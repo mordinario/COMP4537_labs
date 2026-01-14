@@ -1,10 +1,11 @@
 // Stolen from COMP1537
 const express = require('express');
+const path = require('path');
 const app = express();
 app.use(express.json());
 const fs = require('fs');
 
-app.use('/lab0', express.static(__dirname + "/COMP4537/lab0"));
+app.use('/lab0', express.static(path.join(__dirname, '/COMP4537/lab0')));
 
 // Define a route for GET requests to the root URL
 app.get('/', (req, res) => {
