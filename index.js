@@ -4,7 +4,7 @@ const app = express();
 app.use(express.json());
 const fs = require('fs');
 
-app.use("/lab0/", express.static(__dirname + "/COMP4537/Lab0/"));
+app.use("/lab0/", express.static("./COMP4537/Lab0/"));
 
 // Define a route for GET requests to the root URL
 app.get('/', (req, res) => {
