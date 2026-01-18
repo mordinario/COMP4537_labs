@@ -52,9 +52,10 @@ class GameArea {
     }
 
     shuffleColors() {
+        // fisher-yates
         for(let i = colors.length - 1; i > 0; i--) {
             let j = Math.floor(Math.random() * (i + 1));
-            [colors[i], colors[j]] = [colors[j], colors[i]] // this is awesome
+            [colors[i], colors[j]] = [colors[j], colors[i]] // destructuring is awesome
         }
     }
 

@@ -1,0 +1,25 @@
+button {
+  border: none;
+  height: 5em;
+  width: 10em;
+}
+
+#removeButton {
+  border: none;
+  height: 2em;
+  width: 6em;
+}
+
+textarea {
+  margin-right: 20px;
+}
+
+.noteDiv {
+  padding: 10px 0px;
+  display: flex;  
+  align-items: center;
+}
+
+#timestampDiv {
+  text-align: right;
+}
