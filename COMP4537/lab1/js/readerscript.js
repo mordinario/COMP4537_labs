@@ -66,7 +66,7 @@ class NoteManager {
 }
 
 document.getElementById("backButton").addEventListener("click", function() {
-    window.location.replace('/lab1/')
+    window.location.replace('/COMP4537/lab1/')
 })
 
 NoteManager.initializeNotes();
