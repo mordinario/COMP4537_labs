@@ -21,7 +21,7 @@ class HttpServer {
 
             // If not lab 3, assume static file GET request
             return HttpServer.handleStaticLabs(filename, res);
-        }).listen(3000);
+        }).listen(8080);
     }
 
     static handleStaticLabs(filename, res) {
