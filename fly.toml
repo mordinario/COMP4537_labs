@@ -6,8 +6,6 @@
 app = 'comp4537-labs'
 primary_region = 'ord'
 
-[build]
-
 [http_service]
   internal_port = 8080
   force_https = true
