@@ -1,10 +1,12 @@
-# fly.toml app configuration file generated for comp4537-labs on 2026-01-13T18:07:39Z
+# fly.toml app configuration file generated for comp4537-labs on 2026-01-31T21:58:37Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
 app = 'comp4537-labs'
-primary_region = 'ord'
+primary_region = 'sjc'
+
+[build]
 
 [http_service]
   internal_port = 8080
