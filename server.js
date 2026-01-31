@@ -35,19 +35,13 @@ class HttpServer {
                 return res.end(filename + " 404 not found");
             }
 
-            if(filename.endsWith(".js")) {
-                res.writeHead(200, {
-                    'Content-Type': 'application/javascript'
-                });
-            } else if(filename.endsWith(".css")) {
-                res.writeHead(200, {
-                    'Content-Type': 'text/css'
-                })
-            } else {
-                res.writeHead(200, {
-                    'Content-Type': 'text/html'
-                })
-            }
+            const contentType = (filename.endsWith(".js")) ? 'application/javascript' :
+                                (filename.endsWith(".css")) ? 'text/css' :
+                                'text/html';
+
+            res.writeHead(200, {
+                'Content-Type': contentType
+            });
 
             res.end(data);
         });
