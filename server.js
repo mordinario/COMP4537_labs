@@ -5,7 +5,7 @@ const path = require("node:path");
 
 // Lab 3
 const LAB_3_PATH = "/COMP4537/lab3";
-const date = require(`.${LAB_3_PATH}/modules/utils`);
+const utils = require(`.${LAB_3_PATH}/modules/utils`);
 
 class HttpServer {
 	static startServer() {
@@ -36,7 +36,7 @@ class HttpServer {
 					res.writeHead(404, {
 						"Content-Type": "text/html",
 					});
-					return res.end(filename + " 404 not found");
+					return res.end(`${filename}${utils.getString("404")}`);
 				}
 
 				const contentType = filename.endsWith(".js")
@@ -68,15 +68,15 @@ class HttpServer {
 
 	static handleWriteFile(urlObj, res) {
 		const LAB_3_READFILE = "." + LAB_3_PATH + "/readFile/";
-        const content = urlObj.query.text;
-        if (content === undefined) {
-            res.writeHead(200, {
+		const content = urlObj.query.text;
+		if (content === undefined) {
+			res.writeHead(200, {
 				"Content-Type": "text/html",
 			});
 
-            res.end("Nothing To Write");
-            return;
-        }
+			res.end(utils.getString("nothing"));
+			return;
+		}
 
 		try {
 			if (!fs.existsSync(LAB_3_READFILE)) {
@@ -85,7 +85,7 @@ class HttpServer {
 					if (err) {
 						console.log(err);
 					} else {
-                        console.log(`Created ${LAB_3_READFILE}file.txt`);
+						console.log(`Created ${LAB_3_READFILE}file.txt`);
 					}
 				});
 			}
@@ -101,7 +101,12 @@ class HttpServer {
 					"content-Type": "text/html",
 				});
 				res.end(
-					`<p>Successfully Wrote "${content}" to ${LAB_3_READFILE}file.txt"</p>`,
+					`<p>${utils.getString("successfulWrite1")}
+						${content}
+						${utils.getString("successfulWrite2")}
+						${LAB_3_READFILE}
+						${utils.getString("successfulWrite3")}
+					</p>`,
 				);
 			}
 		});
@@ -110,24 +115,20 @@ class HttpServer {
 	static handleReadFile(urlObj, res) {
 		const file = path.basename(urlObj.pathname);
 
-		fs.readFile(
-			`.${LAB_3_PATH}/readFile/${file}`,
-			"utf8",
-			(err, data) => {
-				if (err) {
-					console.log(err);
-					res.writeHead(404, {
-						"Content-Type": "text/html",
-					});
-					return res.end(file + " - 404 not found");
-				}
-				res.writeHead(200, {
+		fs.readFile(`.${LAB_3_PATH}/readFile/${file}`, "utf8", (err, data) => {
+			if (err) {
+				console.log(err);
+				res.writeHead(404, {
 					"Content-Type": "text/html",
 				});
+				return res.end(`${file}${utils.getString("404")}`);
+			}
+			res.writeHead(200, {
+				"Content-Type": "text/html",
+			});
 
-				res.end(data);
-			},
-		);
+			res.end(data);
+		});
 	}
 
 	static handleLab3PartB(urlObj, res) {
@@ -137,11 +138,11 @@ class HttpServer {
 			"Content-Type": "text/html",
 		});
 		res.end(
-			'<p style="color: blue;">Hello ' +
-				(urlObj.query["name"] || "User") +
-				". Server current date and time is " +
-				date.getDate() +
-				".</p>",
+			`<p style="color: blue;">
+				${utils.getString("greeting")}
+				${urlObj.query["name"] || utils.getString("user")}
+				${utils.getString("serverTime")}
+				${utils.getDate()}.</p>`,
 		);
 	}
 }
