@@ -92,7 +92,7 @@ class HttpServer {
 			console.error(err);
 		}
 
-		fs.appendFile(`${LAB_3_READFILE}file.txt`, "\n" + content, (err) => {
+		fs.appendFile(`${LAB_3_READFILE}file.txt`, content + "\n", (err) => {
 			if (err) {
 				console.log(err);
 			} else {
