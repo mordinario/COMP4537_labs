@@ -8,6 +8,16 @@ const LAB_3_PATH = "/COMP4537/lab3";
 const utils = require(`.${LAB_3_PATH}/modules/utils`);
 const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
+// Lab 4
+const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/"
+const mysql = require('mysql');
+const mysqlPool = mysql.createPool({
+	host: "shuttle.proxy.rlwy.net",
+	port: "46519",
+	user: "get",
+	password: "Hey all, Scott here!"
+})
+
 class HttpServer {
 	static startServer() {
 		http.createServer(function (req, res) {
@@ -22,7 +32,13 @@ class HttpServer {
 				return HttpServer.handleLab3(req, res);
 			}
 
-			// If not lab 3, assume static file GET request
+			// Lab 4 is both server requests and static files;
+			// Send to both
+			if(reqUrl.pathname.startsWith(LAB_4_API_PATH)) {
+				return HttpServer.handleLab4Api(req, res);
+			}
+
+			// If not lab 3 or 4, assume static file GET request
 			return HttpServer.handleStaticLabs(filename, res);
 		}).listen(8080);
 	}
@@ -132,6 +148,19 @@ class HttpServer {
                 strings.greeting(urlObj.query.name || strings.DEFAULT_USERNAME, 
                                  utils.getDate())
                 }</p>`);
+	}
+
+	static handleLab4Api(req, res) {
+		// Since we know the url path starts with the lab 4 API path,
+		// we can ignore the first few characters up to the length of
+		// the lab 4 API path to (hopefully) get the SQL statement
+		const urlObj = url.parse(req.url, true);
+		const SQLStatement = urlObj.toString().substring(urlObj.length);
+		console.log(urlObj)
+		res.writeHead(200, {
+			"Content-Type": "text/html"
+		});
+		res.end(`<p>SQL statement: ${SQLStatement}</p>`);
 	}
 }
 
