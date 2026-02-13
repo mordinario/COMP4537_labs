@@ -10,8 +10,8 @@ const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
 // Lab 4
 const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/"
-import mysql from "mysql2";
-import dotenv from "dotenv";
+const mysql = require("mysql2");
+const dotenv = require("dotenv");
 dotenv.config();
 const mysqlPool = mysql.createPool({
 	host: process.env.MYSQLHOST,
