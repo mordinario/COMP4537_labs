@@ -10,12 +10,15 @@ const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
 // Lab 4
 const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/"
-const mysql = require('mysql');
+import mysql from "mysql2";
+import dotenv from "dotenv";
+dotenv.config();
 const mysqlPool = mysql.createPool({
-	host: "shuttle.proxy.rlwy.net",
-	port: "46519",
-	user: "get",
-	password: "Hey all, Scott here!"
+	host: process.env.MYSQLHOST,
+	port: process.env.MYSQLPORT,
+	user: process.env.MYSQLUSER,
+	password: process.env.MYSQLPASSWORD,
+	database: process.env.MYSQLDATABASE
 })
 
 class HttpServer {
