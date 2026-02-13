@@ -158,12 +158,12 @@ class HttpServer {
 		// we can ignore the first few characters up to the length of
 		// the lab 4 API path to (hopefully) get the SQL statement
 		const urlObj = url.parse(req.url, true);
-		const SQLStatement = urlObj.toString().substring(urlObj.length);
-		console.log(urlObj)
+		console.log(urlObj);
+		const SQLStatement = urlObj.pathname.substring(LAB_4_API_PATH.length);
 		res.writeHead(200, {
 			"Content-Type": "text/html"
 		});
-		res.end(`<p>SQL statement: ${SQLStatement}</p>`);
+		res.end(`<p>SQL statement: ${decodeURI(SQLStatement)}</p>`);
 	}
 }
 
