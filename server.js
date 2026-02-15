@@ -161,7 +161,8 @@ class HttpServer {
 		console.log(urlObj);
 		const SQLStatement = urlObj.pathname.substring(LAB_4_API_PATH.length);
 		res.writeHead(200, {
-			"Content-Type": "text/html"
+			"Content-Type": "text/html",
+			"Access-Control-Allow-Origin": "*"
 		});
 		res.end(`<p>SQL statement: ${decodeURI(SQLStatement)}</p>`);
 	}
