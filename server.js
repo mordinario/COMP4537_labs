@@ -9,7 +9,7 @@ const utils = require(`.${LAB_3_PATH}/modules/utils`);
 const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
 // Lab 4
-const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/"
+const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/";
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -18,8 +18,8 @@ const mysqlPool = mysql.createPool({
 	port: process.env.MYSQLPORT,
 	user: process.env.MYSQLUSER,
 	password: process.env.MYSQLPASSWORD,
-	database: process.env.MYSQLDATABASE
-})
+	database: process.env.MYSQLDATABASE,
+});
 
 class HttpServer {
 	static startServer() {
@@ -37,7 +37,7 @@ class HttpServer {
 
 			// Lab 4 is both server requests and static files;
 			// Send to both
-			if(reqUrl.pathname.startsWith(LAB_4_API_PATH)) {
+			if (reqUrl.pathname.startsWith(LAB_4_API_PATH)) {
 				return HttpServer.handleLab4Api(req, res);
 			}
 
@@ -59,9 +59,11 @@ class HttpServer {
 					return res.end(strings.fileNotFound(filename));
 				}
 
-				const contentType = filename.endsWith(".js") ? "application/javascript"
-					              : filename.endsWith(".css") ? "text/css"
-						                                      : "text/html";
+				const contentType = filename.endsWith(".js")
+					? "application/javascript"
+					: filename.endsWith(".css")
+						? "text/css"
+						: "text/html";
 
 				res.writeHead(200, {
 					"Content-Type": contentType,
@@ -147,10 +149,12 @@ class HttpServer {
 		res.writeHead(200, {
 			"Content-Type": "text/html",
 		});
-		res.end(`<p style="color: blue;">${
-                strings.greeting(urlObj.query.name || strings.DEFAULT_USERNAME, 
-                                 utils.getDate())
-                }</p>`);
+		res.end(
+			`<p style="color: blue;">${strings.greeting(
+				urlObj.query.name || strings.DEFAULT_USERNAME,
+				utils.getDate(),
+			)}</p>`,
+		);
 	}
 
 	static handleLab4Api(req, res) {
@@ -160,11 +164,37 @@ class HttpServer {
 		const urlObj = url.parse(req.url, true);
 		console.log(urlObj);
 		const SQLStatement = urlObj.pathname.substring(LAB_4_API_PATH.length);
+
 		res.writeHead(200, {
 			"Content-Type": "text/html",
-			"Access-Control-Allow-Origin": "*"
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Headers": "*",
 		});
-		res.end(`<p>SQL statement: ${decodeURI(SQLStatement)}</p>`);
+		console.log(req.headers);
+
+		if (req.method === GET) {
+			// TODO replace with GET SQL query Response
+			res.end(
+				`<p>GET request recieved! SQL statement: ${decodeURI(SQLStatement)}</p>`,
+			);
+		}
+
+		if (req.method === POST) {
+			let body = "";
+
+			req.on("data", (chunk) => {
+				if (chunk !== null) {
+					body += chunk;
+				}
+			});
+
+			req.on("end", () => {
+				// TODO replace with POST SQL query Response
+				res.end(
+					`<p>POST request recieved! SQL statement: ${decodeURI(SQLStatement)}</p>`,
+				);
+			});
+		}
 	}
 }
 
