@@ -175,7 +175,7 @@ class HttpServer {
 		if (req.method === GET) {
 			// TODO replace with GET SQL query Response
 			res.end(
-				`<p>GET request recieved! SQL statement: ${decodeURI(SQLStatement)}</p>`,
+				`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>`,
 			);
 		}
 
@@ -191,7 +191,7 @@ class HttpServer {
 			req.on("end", () => {
 				// TODO replace with POST SQL query Response
 				res.end(
-					`<p>POST request recieved! SQL statement: ${decodeURI(SQLStatement)}</p>`,
+					`<p>POST request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>`,
 				);
 			});
 		}
