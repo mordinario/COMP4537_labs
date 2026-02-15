@@ -175,8 +175,10 @@ class HttpServer {
 		if (req.method === GET) {
 			// TODO replace with GET SQL query Response
 			res.end(
-				`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>`,
-			);
+				`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
+				<br>
+				<p>${urlObj.query}</p>`,
+			); // handle client query with urlObj.query
 		}
 
 		if (req.method === POST) {
@@ -191,8 +193,12 @@ class HttpServer {
 			req.on("end", () => {
 				// TODO replace with POST SQL query Response
 				res.end(
-					`<p>POST request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>`,
-				);
+					`<p>POST request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
+					<br>
+					<p>${urlObj.data}</p>
+					<br>
+					<p>${body}</p>`,
+				); // handle client query with urlObj.data
 			});
 		}
 	}
