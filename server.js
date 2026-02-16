@@ -173,7 +173,6 @@ class HttpServer {
 		console.log(req.headers);
 
 		if (req.method === GET) {
-			// TODO replace with GET SQL query Response
 			mysqlPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
 				console.log("err: ", err, "res: ", result, "fields: ", fields)
 
@@ -195,14 +194,17 @@ class HttpServer {
 			});
 
 			req.on("end", () => {
-				// TODO replace with POST SQL query Response
-				res.end(
-					`<p>POST request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
-					<br>
-					<p>${urlObj.data}</p>
-					<br>
-					<p>${body}</p>`,
-				); // handle client query with urlObj.data
+				mysqlPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
+					console.log("err: ", err, "res: ", result, "fields: ", fields)
+
+					res.end(
+						`<p>POST request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
+						<br>
+						<p>${urlObj.data}</p>
+						<br>
+						<p>${body}</p>`,
+					); // handle client query with urlObj.query
+				});
 			});
 		}
 	}
