@@ -4,7 +4,8 @@
   "description": "Node.js app for COMP4537",
   "devDependencies": {
     "mysql2": "~3.17.1",
-    "dotenv": "~17.3.1"
+    "dotenv": "~17.3.1",
+    "http": "0.0.1-security"
   },
   "homepage": "https://github.com/mordinario/COMP4537_labs#readme",
   "bugs": {
