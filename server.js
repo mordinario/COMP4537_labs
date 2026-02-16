@@ -203,24 +203,10 @@ class HttpServer {
 				console.log("err: ", err, "res: ", result, "fields: ", fields)
 
 				res.end(
-					`<p>GET request recieved! SQL statement: ${INSERT_QUERY}</p>
+					`<p>POST request recieved! SQL statement: ${INSERT_QUERY}</p>
 					<br>
 					<p>${JSON.stringify(result)}</p>`,
 				); // handle client query with urlObj.query
-			});
-
-			req.on("end", () => {
-				mysqlPostPool.query("SELECT * FROM Patients;", function (err, result, fields) {
-					console.log("err: ", err, "res: ", result, "fields: ", fields)
-
-					res.end(
-						`<p>POST request recieved! SQL statement: SELECT * FROM Patients;</p>
-						<br>
-						<p>${JSON.stringify(result)}</p>
-						<br>
-						<p>${body}</p>`,
-					); // handle client query with urlObj.query
-				});
 			});
 		}
 	}
