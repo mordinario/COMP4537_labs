@@ -11,6 +11,7 @@ const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 // Lab 4
 const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/";
 const INSERT_QUERY = "insert into Patients (name, dateOfBirth) values ('Sara Brown', '1901-01-01'), ('John Smith', '1941-01-01'), ('Jack Ma', '1961-01-30'), ('Elon Musk', '1999-01-01');"
+const CREATE_TABLE_QUERY = "CREATE TABLE IF NOT EXISTS Patients (patientid int auto_increment not null, name varchar(100) not null, dateOfBirth datetime not null, primary key (patientid));"
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -186,7 +187,7 @@ class HttpServer {
 					`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
 					<br>
 					<p>${JSON.stringify(result)}</p>`,
-				); // handle client query with urlObj.query
+				);
 			});
 		}
 
@@ -199,15 +200,17 @@ class HttpServer {
 				}
 			});
 
-			mysqlPostPool.query(INSERT_QUERY, function (err, result, fields) {
-				console.log("err: ", err, "res: ", result, "fields: ", fields)
+			mysqlPostPool.query(CREATE_TABLE_QUERY, () => {
+				mysqlPostPool.query(INSERT_QUERY, (err, result, fields) => {
+					console.log("err: ", err, "res: ", result, "fields: ", fields)
 
-				res.end(
-					`<p>POST request recieved! SQL statement: ${INSERT_QUERY}</p>
-					<br>
-					<p>${JSON.stringify(result)}</p>`,
-				); // handle client query with urlObj.query
-			});
+					res.end(
+						`<p>POST request recieved! SQL statement: ${INSERT_QUERY}</p>
+						<br>
+						<p>${JSON.stringify(result)}</p>`,
+					);
+				});
+			})
 		}
 	}
 }
