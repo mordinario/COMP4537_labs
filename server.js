@@ -10,15 +10,25 @@ const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
 // Lab 4
 const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/";
+const INSERT_QUERY = `insert into Patients (name, dateOfBirth) values  (
+					 'Sara Brown', '1901-01-01', 'John Smith', '1941-01-01',
+					 'Jack Ma', '1961-01-30', 'Elon Musk', '1999-01-01');`
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 dotenv.config();
-const mysqlPool = mysql.createPool({
-	host: process.env.MYSQLHOST,
-	port: process.env.MYSQLPORT,
-	user: process.env.MYSQLUSER,
-	password: process.env.MYSQLPASSWORD,
-	database: process.env.MYSQLDATABASE,
+const mysqlGetPool = mysql.createPool({
+	host: process.env.MYSQLGETHOST,
+	port: process.env.MYSQLGETPORT,
+	user: process.env.MYSQLGETUSER,
+	password: process.env.MYSQLGETPASSWORD,
+	database: process.env.MYSQLGETDATABASE,
+});
+const mysqlPostPool = mysql.createPool({
+	host: process.env.MYSQLPOSTHOST,
+	port: process.env.MYSQLPOSTPORT,
+	user: process.env.MYSQLPOSTUSER,
+	password: process.env.MYSQLPOSTPASSWORD,
+	database: process.env.MYSQLPOSTDATABASE,
 });
 
 class HttpServer {
@@ -172,19 +182,19 @@ class HttpServer {
 		});
 		console.log(req.headers);
 
-		if (req.method === GET) {
-			mysqlPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
+		if (req.method === "GET") {
+			mysqlGetPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
 				console.log("err: ", err, "res: ", result, "fields: ", fields)
 
 				res.end(
 					`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
 					<br>
-					<p>${urlObj.query}</p>`,
+					<p>${JSON.stringify(result)}</p>`,
 				); // handle client query with urlObj.query
 			});
 		}
 
-		if (req.method === POST) {
+		if (req.method === "POST") {
 			let body = "";
 
 			req.on("data", (chunk) => {
@@ -193,8 +203,18 @@ class HttpServer {
 				}
 			});
 
+			mysqlPostPool.query(INSERT_QUERY, function (err, result, fields) {
+				console.log("err: ", err, "res: ", result, "fields: ", fields)
+
+				res.end(
+					`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
+					<br>
+					<p>${JSON.stringify(result)}</p>`,
+				); // handle client query with urlObj.query
+			});
+
 			req.on("end", () => {
-				mysqlPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
+				mysqlGetPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
 					console.log("err: ", err, "res: ", result, "fields: ", fields)
 
 					res.end(
