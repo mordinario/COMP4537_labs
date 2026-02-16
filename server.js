@@ -10,7 +10,7 @@ const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
 // Lab 4
 const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/";
-const INSERT_QUERY = "insert into Patients (name, dateOfBirth) values ('Sara Brown', '1901-01-01', 'John Smith', '1941-01-01', 'Jack Ma', '1961-01-30', 'Elon Musk', '1999-01-01');"
+const INSERT_QUERY = "insert into Patients (name, dateOfBirth) values ('Sara Brown', '1901-01-01'), ('John Smith', '1941-01-01'), ('Jack Ma', '1961-01-30'), ('Elon Musk', '1999-01-01');"
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -170,7 +170,6 @@ class HttpServer {
 		// we can ignore the first few characters up to the length of
 		// the lab 4 API path to (hopefully) get the SQL statement
 		const urlObj = url.parse(req.url, true);
-		console.log(urlObj);
 		const SQLStatement = urlObj.pathname.substring(LAB_4_API_PATH.length);
 
 		res.writeHead(200, {
@@ -178,7 +177,6 @@ class HttpServer {
 			"Access-Control-Allow-Origin": "*",
 			"Access-Control-Allow-Headers": "*",
 		});
-		console.log(req.headers);
 
 		if (req.method === "GET") {
 			mysqlGetPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
@@ -218,7 +216,7 @@ class HttpServer {
 					res.end(
 						`<p>POST request recieved! SQL statement: SELECT * FROM Patients;</p>
 						<br>
-						<p>${urlObj.data}</p>
+						<p>${JSON.stringify(result)}</p>
 						<br>
 						<p>${body}</p>`,
 					); // handle client query with urlObj.query
