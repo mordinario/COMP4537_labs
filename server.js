@@ -214,7 +214,7 @@ class HttpServer {
 			});
 
 			req.on("end", () => {
-				mysqlGetPool.query(decodeURIComponent(SQLStatement), function (err, result, fields) {
+				mysqlPostPool.query("SELECT * FROM Patients;", function (err, result, fields) {
 					console.log("err: ", err, "res: ", result, "fields: ", fields)
 
 					res.end(
