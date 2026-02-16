@@ -10,9 +10,7 @@ const strings = require(`.${LAB_3_PATH}/lang/messages/en/user`);
 
 // Lab 4
 const LAB_4_API_PATH = "/COMP4537/lab4/api/v1/sql/";
-const INSERT_QUERY = `insert into Patients (name, dateOfBirth) values  (
-					 'Sara Brown', '1901-01-01', 'John Smith', '1941-01-01',
-					 'Jack Ma', '1961-01-30', 'Elon Musk', '1999-01-01');`
+const INSERT_QUERY = "insert into Patients (name, dateOfBirth) values ('Sara Brown', '1901-01-01', 'John Smith', '1941-01-01', 'Jack Ma', '1961-01-30', 'Elon Musk', '1999-01-01');"
 const mysql = require("mysql2");
 const dotenv = require("dotenv");
 dotenv.config();
@@ -207,7 +205,7 @@ class HttpServer {
 				console.log("err: ", err, "res: ", result, "fields: ", fields)
 
 				res.end(
-					`<p>GET request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
+					`<p>GET request recieved! SQL statement: ${INSERT_QUERY}</p>
 					<br>
 					<p>${JSON.stringify(result)}</p>`,
 				); // handle client query with urlObj.query
@@ -218,7 +216,7 @@ class HttpServer {
 					console.log("err: ", err, "res: ", result, "fields: ", fields)
 
 					res.end(
-						`<p>POST request recieved! SQL statement: ${decodeURIComponent(SQLStatement)}</p>
+						`<p>POST request recieved! SQL statement: SELECT * FROM Patients;</p>
 						<br>
 						<p>${urlObj.data}</p>
 						<br>
